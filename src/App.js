@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -33,14 +33,6 @@ function App() {
     }}
   >
       <Router>
-        {/* <div className="wrapper">
-          <h1>Using Sass in React</h1>
-          <header className="wrapper__btns">
-            <button className="wrapper__btns_color_blue">Blue Button</button>
-            <button className="wrapper__btns_color_red">Red Button</button>
-            <button className="wrapper__btns_color_green">Green Button</button>
-          </header>
-        </div> */}
         <div className="App">
           <Header></Header>
           <Routes>

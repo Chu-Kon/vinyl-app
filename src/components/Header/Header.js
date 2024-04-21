@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useState } from 'react-router-dom';
 import { ActionIcon, Tooltip, useMantineColorScheme, useComputedColorScheme, SegmentedControl } from '@mantine/core';
-import { IconSun, IconMoon } from '@tabler/icons-react';
+import { IconSun, IconBulb, IconMoon } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import './Header.scss';
 
@@ -72,12 +72,14 @@ export default function Header() {
               onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
               variant="default"
               size="xl"
+              radius="xl"
               aria-label="Toggle color scheme"
             >
               {computedColorScheme === 'light' ? (
-                <IconMoon stroke={1.5} />
+                <IconSun stroke={2} />
+                // <IconBulb stroke={2} />
               ) : (
-                <IconSun stroke={1.5} />
+                <IconMoon stroke={2} />
               )}
             </ActionIcon>
           </Tooltip>
