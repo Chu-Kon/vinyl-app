@@ -1,0 +1,28 @@
+// использовал гайд "https://www.makeuseof.com/react-sass-how-use/"
+// также "https://docs.fileformat.com/ru/web/scss/"
+@import "./Styles/variables";
+@import "./Styles/mixins";
+
+.wrapper {
+  background-color: $background-color;
+  color: $text-color;
+  padding: $block-padding;
+
+  &__btns {
+    @include vertical-list;
+    button {
+      width: $btn-width;
+      height: $btn-height;
+    }
+
+    &_color_blue{
+      background-color: $btn-color-blue;
+    }
+    &_color_red{
+      background-color: $btn-color-red;
+    }
+    &_color_green{
+      background-color: $btn-color-green;
+    }
+   }
+}
