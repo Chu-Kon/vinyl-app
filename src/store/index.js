@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import todosSlice from './slices/todosSlice';
-// import authReducer from './slices/authSlice';
+import albumsReducer from './slices/albumsSlice';
+import currentPageReducer from './slices/currentPageSlice';
 
 export default configureStore({
-    reducer:{
-        // auth: authReducer,
-        // todos: todosSlice
+    reducer: {
+        albums: albumsReducer,
+        currentPage: currentPageReducer
     }
 })

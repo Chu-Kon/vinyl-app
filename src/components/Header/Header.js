@@ -45,7 +45,7 @@ export default function Header() {
         <nav className="nav header__nav">
           <ul className="nav__list">
             <li className="nav__item">
-              <Link to="/" className={`nav__link ${location.pathname === '/' ? 'active-link' : ''}`}>Search</Link>
+              <Link to="/search" className={`nav__link ${location.pathname === '/search' ? 'active-link' : ''}`}>Search</Link>
             </li>
             <li className="nav__item">
               <Link to="/collection" className={`nav__link ${location.pathname === '/collection' ? 'active-link' : ''}`}>My collection</Link>
