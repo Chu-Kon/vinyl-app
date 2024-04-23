@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, rem, Drawer, Group, Button, Mark, Text, Image, TextInput, NativeSelect } from '@mantine/core';
+import { ActionIcon, rem, Drawer, Group, Button, Mark, Text, Image, TextInput, NativeSelect, Modal, Tooltip } from '@mantine/core';
 import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from '@tabler/icons-react';
 import { setAlbums, addToCollection, addToWishlist } from '../../store/slices/albumsSlice';
 import { setCurrentPage } from '../../store/slices/currentPageSlice';
@@ -15,6 +15,8 @@ const SearchPage = () => {
   const [isNextPageEnabled, setIsNextPageEnabled] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortingOption, setSortingOption] = useState('default');
+  const [selectedAlbum, setSelectedAlbum] = useState(null);
+  const [modalOpened, setModalOpened] = useState(false);
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -76,6 +78,16 @@ const SearchPage = () => {
       sortedAlbums = [...filteredAlbums];
   }
 
+  const openModal = (album) => {
+    setSelectedAlbum(album);
+    setModalOpened(true);
+  };
+
+  const closeModal = () => {
+    setSelectedAlbum(null);
+    setModalOpened(false);
+  };
+
   return (
     <div>
       <h1>Albums</h1>
@@ -85,6 +97,7 @@ const SearchPage = () => {
         placeholder="&#128269; Search albums..."
       />
       <NativeSelect
+        className='sort-selector'
         label="Sorted by"
         value={sortingOption}
         onChange={handleSortingChange}
@@ -97,17 +110,40 @@ const SearchPage = () => {
       <div className="albums-container">
         {sortedAlbums.map(album => (
           <div key={album.id} className="album-card">
-            <img src={album.picture} alt={album.title} />
-            <h2>{album.title}</h2>
-            <p>{album.artist}</p>
-            <a href={album.albumLink} target="_blank" rel="noopener noreferrer">Listen on Spotify <IconBrandSpotifyFilled /></a>
+            <Image
+              src={album.picture}
+              alt={album.title}
+              onClick={() => openModal(album)}
+              style={{ cursor: 'pointer' }}
+            />
+            <div onClick={() => openModal(album)} style={{ cursor: 'pointer' }}>
+              <Tooltip 
+              label={album.title}
+              color="violet"
+              position="top-start" 
+              offset={0}
+              transitionProps={{ transition: 'skew-up', duration: 300 }}> 
+                <h2>{album.title}</h2>
+              </Tooltip>
+              <p>{album.artist}</p>
+            </div>
+            <a href={album.albumLink} target="_blank">Listen on Spotify <IconBrandSpotifyFilled /></a>
             <div className="buttons-container">
               <ActionIcon.Group>
-                <ActionIcon onClick={() => dispatch(addToCollection({ albumId: album.id, iconVariant: album.iconVariant }))} variant={album.iconVariant} size="lg" color="violet" aria-label="Add to Collection">
+                <ActionIcon 
+                onClick={() => dispatch(addToCollection({ albumId: album.id, iconVariant: album.iconVariant }))} 
+                variant={album.iconVariant} 
+                size="lg" 
+                color="violet" 
+                aria-label="Add to Collection">
                   {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
                 </ActionIcon>
-
-                <ActionIcon onClick={() => dispatch(addToWishlist({ albumId: album.id, wishlistVariant: album.wishlistVariant }))} variant={album.wishlistVariant} size="lg" color="violet" aria-label="Add to Wishlist">
+                <ActionIcon 
+                onClick={() => dispatch(addToWishlist({ albumId: album.id, wishlistVariant: album.wishlistVariant }))} 
+                variant={album.wishlistVariant} 
+                size="lg" 
+                color="violet" 
+                aria-label="Add to Wishlist">
                   <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
                 </ActionIcon>
               </ActionIcon.Group>
@@ -124,7 +160,6 @@ const SearchPage = () => {
         >
           &#8592;Back
         </Button>
-
         <Button
           variant="outline" 
           color="violet"
@@ -149,6 +184,24 @@ const SearchPage = () => {
           src="https://avatars.dzeninfra.ru/get-zen_doc/50840/pub_5c863e3846ebf300b3df0246_5c863e466508fd00b373cf97/scale_1200"
         />
       </Drawer>
+
+      <Modal
+      opened={modalOpened}
+      onClose={closeModal}
+      title={<p className='modal-title'>{selectedAlbum ? selectedAlbum.title : ''}</p>}
+      >
+        {selectedAlbum && (
+          <div>
+            <div className='modal-image'>
+              <Image src={selectedAlbum.picture} alt={selectedAlbum.title} />
+            </div>
+            <p><strong>Album title:</strong> <a href={selectedAlbum.albumLink} target="_blank">{selectedAlbum.title}</a></p>
+            <p><strong>Artist:</strong> <a href={selectedAlbum.artistLink} target="_blank">{selectedAlbum.artist}</a></p>
+            <p><strong>Release Date:</strong> {new Date(selectedAlbum.releaseDate * 1000).toLocaleDateString()}</p>
+            <p><strong>Number of Tracks:</strong> {selectedAlbum.nbTracks}</p>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

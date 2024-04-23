@@ -18,7 +18,7 @@ const WishlistPage = () => {
             <img src={album.picture} alt={album.title} />
             <h2>{album.title}</h2>
             <p>{album.artist}</p>
-            <a href={album.albumLink} target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+            <a href={album.albumLink} target="_blank">Listen on Spotify</a>
             <div className="buttons-container">
               <ActionIcon.Group>
                 <ActionIcon onClick={() => dispatch(removeFromWishlist(album.id))} variant="filled" color="violet" size="lg" aria-label="Remove from Wishlist">

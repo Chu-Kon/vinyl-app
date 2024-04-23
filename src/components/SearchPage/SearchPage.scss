@@ -14,7 +14,7 @@
   .album-card {
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 20px;
+    padding: 10px;
     width: calc(25% - 20px);
     box-sizing: border-box;
     display: flex;
@@ -28,7 +28,7 @@
     }
 
     h2 {
-      margin-top: 10px;
+      margin: 10px 0 0;
       font-size: 18px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -36,7 +36,7 @@
     }
 
     p {
-      margin-top: 5px;
+      margin: 2px 0 0;
       font-size: 14px;
       color: #666;
       overflow: hidden;
@@ -52,7 +52,7 @@
 
     a {
       display: inline-block;
-      margin-top: 10px;
+      margin: 5px 0 5px;
       text-decoration: none;
       color: darkviolet;
 
@@ -65,4 +65,18 @@
 
 .nav-buttons {
   margin: 10px;
+}
+
+.sort-selector {
+  margin: 5px 0 10px;
+}
+
+.modal-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.modal-image {
+  // width: 400px;
 }

@@ -35,26 +35,26 @@ const albumsSlice = createSlice({
         return album;
       });
     },
-    removeFromWishlist: (state, action) => {
-      const { albumId } = action.payload;
-      return state.map(album => {
-        if (album.id === albumId) {
-          console.log(`Removed album with id ${albumId} from wishlist`);
-          return { ...album, wishlistVariant: 'default' };
-        }
-        return album;
-      });
-    },
-    removeFromCollection: (state, action) => {
-      const { albumId } = action.payload;
-      return state.map(album => {
-        if (album.id === albumId) {
-          console.log(`Removed album with id ${albumId} from collection`);
-          return { ...album, iconVariant: 'default' };
-        }
-        return album;
-      });
-    },
+    // removeFromWishlist: (state, action) => {
+    //   const { albumId } = action.payload;
+    //   return state.map(album => {
+    //     if (album.id === albumId) {
+    //       console.log(`Removed album with id ${albumId} from wishlist`);
+    //       return { ...album, wishlistVariant: 'default' };
+    //     }
+    //     return album;
+    //   });
+    // },
+    // removeFromCollection: (state, action) => {
+    //   const { albumId } = action.payload;
+    //   return state.map(album => {
+    //     if (album.id === albumId) {
+    //       console.log(`Removed album with id ${albumId} from collection`);
+    //       return { ...album, iconVariant: 'default' };
+    //     }
+    //     return album;
+    //   });
+    // },
   },
 });
 

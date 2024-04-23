@@ -18,7 +18,7 @@ const CollectionPage = () => {
             <img src={album.picture} alt={album.title} />
             <h2>{album.title}</h2>
             <p>{album.artist}</p>
-            <a href={album.albumLink} target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+            <a href={album.albumLink} target="_blank">Listen on Spotify</a>
             <div className="buttons-container">
                 <ActionIcon onClick={() => dispatch(removeFromCollection(album.id))} variant="filled" color="violet" size="lg" aria-label="Remove from Collection">
                   {album.iconVariant === "filled" ? <IconCheck style={{ width: rem(26), height: rem(26) }} stroke={2} /> : <IconPlus stroke={2} />}
