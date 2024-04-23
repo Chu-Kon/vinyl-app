@@ -50,6 +50,18 @@
       margin-top: auto;
     }
 
+    .add-collection-btn {
+      &:hover {
+        color: red;
+      }
+    }
+
+    .add-wishlist-btn {
+      &:hover {
+        color: red;
+      }
+    }
+
     a {
       display: inline-block;
       margin: 5px 0 5px;

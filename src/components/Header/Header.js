@@ -38,10 +38,12 @@ export default function Header() {
     const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
     return (
       <header className="header">
-        <img className="header__logo" 
-             src="https://cdn-icons-png.freepik.com/512/7831/7831853.png?ga=GA1.1.544374723.1713081426"
-             alt="Logo vinyl disc"
-        ></img>
+        <Link to="/search">
+          <img className="header__logo" 
+              src="https://cdn-icons-png.freepik.com/512/7831/7831853.png?ga=GA1.1.544374723.1713081426"
+              alt="Logo vinyl disc"
+          ></img>
+        </Link>
         <nav className="nav header__nav">
           <ul className="nav__list">
             <li className="nav__item">

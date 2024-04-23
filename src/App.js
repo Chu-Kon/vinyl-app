@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -14,6 +13,7 @@ import './App.scss';
 // import './i18n/config'
 
 function App() {
+  // const { isAuth } = useSelector((state) => state.auth);
   return (
     <MantineProvider
     withGlobalStyles
@@ -40,6 +40,7 @@ function App() {
         <div className="App">
           <Header></Header>
           <Routes>
+            <Route path="*" element={<SearchPage></SearchPage>}/>
             <Route path="/search" element={<SearchPage></SearchPage>} />
             <Route path="/collection" element={<CollectionPage></CollectionPage>} />
             <Route path="/wishlist" element={<WishlistPage></WishlistPage>} />
@@ -48,7 +49,6 @@ function App() {
             <Route path="/login" element={<LoginPage></LoginPage>} />
           </Routes>
           <Footer></Footer>
-          {/* <div id="modal-root"></div> */}
         </div>
       </Router>
     </MantineProvider>

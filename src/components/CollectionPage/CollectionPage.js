@@ -1,28 +1,62 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, rem } from '@mantine/core';
-import { IconPlus, IconCheck } from '@tabler/icons-react';
-import { removeFromCollection } from '../../store/slices/albumsSlice';
-import './CollectionPage.scss';
+import { ActionIcon, rem, Image, Mark, Modal, Text, Tooltip } from '@mantine/core';
+import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from '@tabler/icons-react';
+import { removeFromCollection, addToWishlist } from '../../store/slices/albumsSlice';
+import { setCurrentPage } from '../../store/slices/currentPageSlice';
 
 const CollectionPage = () => {
   const dispatch = useDispatch();
-  const collectionAlbums = useSelector(state => state.albums.filter(album => album.iconVariant === "filled"));
+  const collection = useSelector(state => state.albums.filter(album => album.iconVariant === 'filled'));
+
+  const handleRemoveFromCollection = (albumId) => {
+    dispatch(removeFromCollection({ albumId }));
+  };
+
+  const handleAddToWishlist = (albumId, wishlistVariant) => {
+    dispatch(addToWishlist({ albumId, wishlistVariant }));
+  };
 
   return (
-    <div className='collection-content'>
+    <div>
       <h1>Collection</h1>
-      <div className="collection-container">
-        {collectionAlbums.map(album => (
-          <div key={album.id} className="collection-card">
-            <img src={album.picture} alt={album.title} />
-            <h2>{album.title}</h2>
-            <p>{album.artist}</p>
-            <a href={album.albumLink} target="_blank">Listen on Spotify</a>
+      <div className="albums-container">
+        {collection.map(album => (
+          <div key={album.id} className="album-card">
+            <Image src={album.picture} alt={album.title} />
+            <div>
+              <Tooltip 
+                label={album.title}
+                color="violet"
+                position="top-start" 
+                offset={0}
+                transitionProps={{ transition: 'skew-up', duration: 300 }}> 
+                <h2>{album.title}</h2>
+              </Tooltip>
+              <p>{album.artist}</p>
+            </div>
+            <a href={album.albumLink} target="_blank">Listen on Spotify <IconBrandSpotifyFilled /></a>
             <div className="buttons-container">
-                <ActionIcon onClick={() => dispatch(removeFromCollection(album.id))} variant="filled" color="violet" size="lg" aria-label="Remove from Collection">
-                  {album.iconVariant === "filled" ? <IconCheck style={{ width: rem(26), height: rem(26) }} stroke={2} /> : <IconPlus stroke={2} />}
+              <ActionIcon.Group>
+                <ActionIcon 
+                  onClick={() => handleRemoveFromCollection(album.id)} 
+                  variant="filled"
+                  size="lg" 
+                  color="violet" 
+                  aria-label="Remove from Collection">
+                  {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
+                  
                 </ActionIcon>
+                <ActionIcon 
+                  onClick={() => dispatch(addToWishlist({ albumId: album.id, wishlistVariant: album.wishlistVariant }))} 
+                  // onClick={() => handleAddToWishlist(album.id, album.wishlistVariant)} 
+                  variant={album.iconVariant === 'default' ? 'default' : 'filled'} 
+                  size="lg" 
+                  color="violet" 
+                  aria-label="Add to Wishlist">
+                    <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
+                </ActionIcon>
+              </ActionIcon.Group>
             </div>
           </div>
         ))}

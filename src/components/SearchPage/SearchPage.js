@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, rem, Drawer, Group, Button, Mark, Text, Image, TextInput, NativeSelect, Modal, Tooltip } from '@mantine/core';
@@ -131,6 +132,7 @@ const SearchPage = () => {
             <div className="buttons-container">
               <ActionIcon.Group>
                 <ActionIcon 
+                className='add-collection-btn'
                 onClick={() => dispatch(addToCollection({ albumId: album.id, iconVariant: album.iconVariant }))} 
                 variant={album.iconVariant} 
                 size="lg" 
@@ -139,6 +141,7 @@ const SearchPage = () => {
                   {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
                 </ActionIcon>
                 <ActionIcon 
+                className='add-wishlist-btn'
                 onClick={() => dispatch(addToWishlist({ albumId: album.id, wishlistVariant: album.wishlistVariant }))} 
                 variant={album.wishlistVariant} 
                 size="lg" 
