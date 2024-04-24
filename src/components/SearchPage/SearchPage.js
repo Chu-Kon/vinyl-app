@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, rem, Drawer, Group, Button, Mark, Text, Image, TextInput, NativeSelect, Modal, Tooltip } from '@mantine/core';
-import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from '@tabler/icons-react';
+import { IconHeart, IconHeartFilled, IconPlus, IconCheck, IconBrandSpotifyFilled } from '@tabler/icons-react';
 import { setAlbums, addToCollection, addToWishlist } from '../../store/slices/albumsSlice';
 import { setCurrentPage } from '../../store/slices/currentPageSlice';
 import './SearchPage.scss';

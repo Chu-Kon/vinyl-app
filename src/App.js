@@ -10,7 +10,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import './App.scss';
-// import './i18n/config'
+import './translation/config'
 
 function App() {
   // const { isAuth } = useSelector((state) => state.auth);
@@ -37,8 +37,9 @@ function App() {
     }}
   >
       <Router>
-        <div className="App">
+        <div className="app">
           <Header></Header>
+          <div className="app-pages">
           <Routes>
             <Route path="*" element={<SearchPage></SearchPage>}/>
             <Route path="/search" element={<SearchPage></SearchPage>} />
@@ -48,6 +49,7 @@ function App() {
             <Route path="/settings" element={<SettingsPage></SettingsPage>} />
             <Route path="/login" element={<LoginPage></LoginPage>} />
           </Routes>
+          </div>
           <Footer></Footer>
         </div>
       </Router>

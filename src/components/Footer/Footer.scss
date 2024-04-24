@@ -2,4 +2,10 @@
     background-color: #000033;
     color: #fff;
     height: 50px;
+
+    &__copyright{
+        padding: 10px;
+        margin: 0;
+        max-width: 300px;
+    }
 }

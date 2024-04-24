@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, rem, Image, Mark, Modal, Text, Tooltip } from '@mantine/core';
 import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from '@tabler/icons-react';
 import { removeFromCollection, addToWishlist } from '../../store/slices/albumsSlice';
-import { setCurrentPage } from '../../store/slices/currentPageSlice';
 
 const CollectionPage = () => {
   const dispatch = useDispatch();

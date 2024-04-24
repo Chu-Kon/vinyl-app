@@ -1,9 +1,4 @@
-// .search-content{
-//   height: 100vh;
-// }
-.search-input {
-  margin: 10px 0;
-}
+$hover-color: red;
 
 .albums-container {
   display: flex;
@@ -52,13 +47,13 @@
 
     .add-collection-btn {
       &:hover {
-        color: red;
+        color: $hover-color;
       }
     }
 
     .add-wishlist-btn {
       &:hover {
-        color: red;
+        color: $hover-color;
       }
     }
 
@@ -69,7 +64,7 @@
       color: darkviolet;
 
       &:hover {
-        color: red;
+        color: $hover-color;
       }
     }
   }
@@ -89,6 +84,35 @@
   margin: 0;
 }
 
-.modal-image {
-  // width: 400px;
+@media only screen and (max-width: 480px) {
+  .albums-container {
+    .album-card {
+      width: calc(100% - 20px);
+      // width: calc(50% - 20px);
+    }
+  }
 }
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .albums-container {
+    .album-card {
+      width: calc(33% - 20px);
+    }
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .albums-container {
+    .album-card {
+      width: calc(25% - 20px);
+    }
+  }
+}
+
+// @media only screen and (min-width: 1025px) {
+//   .albums-container {
+//     .album-card {
+//       width: calc(20% - 20px);
+//     }
+//   }
+// }
