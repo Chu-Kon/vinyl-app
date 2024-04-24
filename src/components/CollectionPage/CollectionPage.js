@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ActionIcon, rem, Image, Mark, Modal, Text, Tooltip } from '@mantine/core';
 import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from '@tabler/icons-react';
 import { removeFromCollection, addToWishlist } from '../../store/slices/albumsSlice';
+import { useTranslation } from 'react-i18next';
 
 const CollectionPage = () => {
+  const { i18n } = useTranslation();
+  const { t } = useTranslation('collection');
   const dispatch = useDispatch();
   const collection = useSelector(state => state.albums.filter(album => album.iconVariant === 'filled'));
 
@@ -18,9 +21,9 @@ const CollectionPage = () => {
 
   return (
     <div>
-      <h1>Collection</h1>
+      <h1>{t('collection-title')}</h1>
       {collection.length === 0 ? (
-        <p>Your collection is empty</p>
+        <p>{t('collection-text')}</p>
       ) : (
         <div className="albums-container">
           {collection.map(album => (

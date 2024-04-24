@@ -1,0 +1,19 @@
+{
+    "search-title": "Albums",
+    "search-input": "Search albums...",
+    "sorter-title": "Sorted by",
+    "sort-default": "Default",
+    "sort-alphabetical": "Alphabetical",
+    "sort-reverse": "Reverse Alphabetical",
+    "spotify-link": "Listen on Spotify",
+    "add-collection-tip": "Add to collection",
+    "add-wishlist-tip": "Add to wishlist",
+    "back-button": "Back",
+    "next-button": "Next",
+    "drawer-title": "Oops!..",
+    "drawer-text-1": "Unfortunately,  these are all the albums available in our database at the moment.",
+    "drawer-text-2": "To return to the previous page, close this notification and",
+    "mark-text": "press the ",
+    "mark-bold-text": "Back",
+    "mark-text-2": " 2 times."
+}

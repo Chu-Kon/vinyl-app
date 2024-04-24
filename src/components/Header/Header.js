@@ -51,22 +51,22 @@ export default function Header() {
           <nav className="nav header__nav">
               <ul className="nav__list">
                   <li className="nav__item">
-                      <Link to="/search" className={`nav__link ${location.pathname === '/search' ? 'active-link' : ''}`}>Search</Link>
+                      <Link to="/search" className={`nav__link ${location.pathname === '/search' ? 'active-link' : ''}`}>{t('nav-search')}</Link>
                   </li>
                   <li className="nav__item">
-                      <Link to="/collection" className={`nav__link ${location.pathname === '/collection' ? 'active-link' : ''}`}>My collection</Link>
+                      <Link to="/collection" className={`nav__link ${location.pathname === '/collection' ? 'active-link' : ''}`}>{t('nav-collection')}</Link>
                   </li>
                   <li className="nav__item">
-                      <Link to="/wishlist" className={`nav__link ${location.pathname === '/wishlist' ? 'active-link' : ''}`}>Wishlist</Link>
+                      <Link to="/wishlist" className={`nav__link ${location.pathname === '/wishlist' ? 'active-link' : ''}`}>{t('nav-wishlist')}</Link>
                   </li>
                   <li className="nav__item">
-                      <Link to="/about" className={`nav__link ${location.pathname === '/about' ? 'active-link' : ''}`}>About</Link>
+                      <Link to="/about" className={`nav__link ${location.pathname === '/about' ? 'active-link' : ''}`}>{t('nav-about')}</Link>
                   </li>
                   <li className="nav__item">
-                      <Link to="/settings" className={`nav__link ${location.pathname === '/settings' ? 'active-link' : ''}`}>Settings</Link>
+                      <Link to="/settings" className={`nav__link ${location.pathname === '/settings' ? 'active-link' : ''}`}>{t('nav-settings')}</Link>
                   </li>
                   <li className="nav__item">
-                      <Link to="/login" className={`nav__link ${location.pathname === '/login' ? 'active-link' : ''}`}>Login</Link>
+                      <Link to="/login" className={`nav__link ${location.pathname === '/login' ? 'active-link' : ''}`}>{t('nav-login')}</Link>
                   </li>
               </ul>
           </nav>
@@ -75,27 +75,27 @@ export default function Header() {
           <div className="nav-mobile">
             <Menu shadow="md" width={220} position="bottom-start" offset={0}>
               <Menu.Target>
-                <Burger color="white" size="lg" opened={opened} onClick={toggle} aria-label="Toggle navigation"></Burger>
+                <Burger color="white" size="lg" opened={opened} aria-label="Toggle navigation"></Burger>
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item leftSection={<IconSearch style={{ width: rem(14), height: rem(14) }} />}>
-                  <Link to="/search" className={`nav-mobile__link ${location.pathname === '/search' ? 'active-link' : ''}`}>Search</Link>
+                  <Link to="/search" className={`nav-mobile__link ${location.pathname === '/search' ? 'active-link' : ''}`}>{t('nav-search')}</Link>
                 </Menu.Item>
                 <Menu.Item leftSection={<IconPlus style={{ width: rem(14), height: rem(14) }} />}>
-                  <Link to="/collection" className={`nav-mobile__link ${location.pathname === '/collection' ? 'active-link' : ''}`}>My collection</Link>
+                  <Link to="/collection" className={`nav-mobile__link ${location.pathname === '/collection' ? 'active-link' : ''}`}>{t('nav-collection')}</Link>
                 </Menu.Item>
                 <Menu.Item leftSection={<IconHeart style={{ width: rem(14), height: rem(14) }} />}>
-                  <Link to="/wishlist" className={`nav-mobile__link ${location.pathname === '/wishlist' ? 'active-link' : ''}`}>Wishlist</Link>
+                  <Link to="/wishlist" className={`nav-mobile__link ${location.pathname === '/wishlist' ? 'active-link' : ''}`}>{t('nav-wishlist')}</Link>
                 </Menu.Item>
                 <Menu.Item leftSection={<IconInfoCircle style={{ width: rem(14), height: rem(14) }} />}>
-                  <Link to="/about" className={`nav-mobile__link ${location.pathname === '/about' ? 'active-link' : ''}`}>About</Link>
+                  <Link to="/about" className={`nav-mobile__link ${location.pathname === '/about' ? 'active-link' : ''}`}>{t('nav-about')}</Link>
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                  <Link to="/settings" className={`nav-mobile__link ${location.pathname === '/settings' ? 'active-link' : ''}`}>Settings</Link>
+                  <Link to="/settings" className={`nav-mobile__link ${location.pathname === '/settings' ? 'active-link' : ''}`}>{t('nav-settings')}</Link>
                 </Menu.Item>
                 <Menu.Item color="red" leftSection={<IconLogin2 style={{ width: rem(14), height: rem(14) }} />}>
-                  <Link to="/login" className={`nav-mobile__link ${location.pathname === '/login' ? 'active-link' : ''}`}>Login</Link>
+                  <Link to="/login" className={`nav-mobile__link ${location.pathname === '/login' ? 'active-link' : ''}`}>{t('nav-login')}</Link>
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
@@ -104,7 +104,7 @@ export default function Header() {
           <div className="header__controls">
               <LanguageSwitcher />
 
-              <Tooltip label="Switch theme" color="violet" transitionProps={{ transition: 'skew-up', duration: 300 }}>
+              <Tooltip label={t('theme-switcher')} color="violet" transitionProps={{ transition: 'skew-up', duration: 300 }}>
                   <ActionIcon
                       className='theme-switcher'
                       onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}

@@ -40,15 +40,15 @@ function App() {
         <div className="app">
           <Header></Header>
           <div className="app-pages">
-          <Routes>
-            <Route path="*" element={<SearchPage></SearchPage>}/>
-            <Route path="/search" element={<SearchPage></SearchPage>} />
-            <Route path="/collection" element={<CollectionPage></CollectionPage>} />
-            <Route path="/wishlist" element={<WishlistPage></WishlistPage>} />
-            <Route path="/about" element={<AboutPage></AboutPage>} />
-            <Route path="/settings" element={<SettingsPage></SettingsPage>} />
-            <Route path="/login" element={<LoginPage></LoginPage>} />
-          </Routes>
+            <Routes>
+              <Route path="*" element={<SearchPage></SearchPage>}/>
+              <Route path="/search" element={<SearchPage></SearchPage>} />
+              <Route path="/collection" element={<CollectionPage></CollectionPage>} />
+              <Route path="/wishlist" element={<WishlistPage></WishlistPage>} />
+              <Route path="/about" element={<AboutPage></AboutPage>} />
+              <Route path="/settings" element={<SettingsPage></SettingsPage>} />
+              <Route path="/login" element={<LoginPage></LoginPage>} />
+            </Routes>
           </div>
           <Footer></Footer>
         </div>

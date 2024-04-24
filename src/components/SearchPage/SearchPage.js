@@ -5,7 +5,10 @@ import { ActionIcon, rem, Drawer, Group, Button, Mark, Text, Image, TextInput, N
 import { IconHeart, IconHeartFilled, IconPlus, IconCheck, IconBrandSpotifyFilled } from '@tabler/icons-react';
 import { setAlbums, addToCollection, addToWishlist } from '../../store/slices/albumsSlice';
 import { setCurrentPage } from '../../store/slices/currentPageSlice';
+import { useTranslation } from 'react-i18next';
 import './SearchPage.scss';
+
+
 
 const SearchPage = () => {
   const dispatch = useDispatch();
@@ -18,6 +21,8 @@ const SearchPage = () => {
   const [sortingOption, setSortingOption] = useState('default');
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [modalOpened, setModalOpened] = useState(false);
+  const { i18n } = useTranslation();
+  const { t } = useTranslation('search');
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -91,21 +96,21 @@ const SearchPage = () => {
 
   return (
     <div>
-      <h1>Albums</h1>
+      <h1>{t('search-title')}</h1>
       <TextInput
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.currentTarget.value)}
-        placeholder="&#128269; Search albums..."
+        placeholder={t('search-input')}
       />
       <NativeSelect
         className='sort-selector'
-        label="Sorted by"
+        label={t('sorter-title')}
         value={sortingOption}
         onChange={handleSortingChange}
         data={[
-          { value: 'default', label: 'Default' },
-          { value: 'alphabetical', label: 'Alphabetical' },
-          { value: 'reverseAlphabetical', label: 'Reverse Alphabetical' },
+          { value: 'default', label: t('sort-default') },
+          { value: 'alphabetical', label: t('sort-alphabetical') },
+          { value: 'reverseAlphabetical', label: t('sort-reverse') },
         ]}
       />
       <div className="albums-container">
@@ -128,27 +133,42 @@ const SearchPage = () => {
               </Tooltip>
               <p>{album.artist}</p>
             </div>
-            <a href={album.albumLink} target="_blank">Listen on Spotify <IconBrandSpotifyFilled /></a>
+            <a href={album.albumLink} target="_blank">{t('spotify-link')}<IconBrandSpotifyFilled /></a>
             <div className="buttons-container">
               <ActionIcon.Group>
-                <ActionIcon 
-                className='add-collection-btn'
-                onClick={() => dispatch(addToCollection({ albumId: album.id, iconVariant: album.iconVariant }))} 
-                variant={album.iconVariant} 
-                size="lg" 
-                color="violet" 
-                aria-label="Add to Collection">
-                  {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
-                </ActionIcon>
-                <ActionIcon 
-                className='add-wishlist-btn'
-                onClick={() => dispatch(addToWishlist({ albumId: album.id, wishlistVariant: album.wishlistVariant }))} 
-                variant={album.wishlistVariant} 
-                size="lg" 
-                color="violet" 
-                aria-label="Add to Wishlist">
-                  <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
-                </ActionIcon>
+                <Tooltip 
+                label={t('add-collection-tip')} 
+                color="violet"
+                position="bottom-start" 
+                offset={0}
+                transitionProps={{ transition: 'skew-up', duration: 300 }}> 
+                  <ActionIcon 
+                  className='add-collection-btn'
+                  onClick={() => dispatch(addToCollection({ albumId: album.id, iconVariant: album.iconVariant }))} 
+                  variant={album.iconVariant} 
+                  size="lg" 
+                  color="violet" 
+                  aria-label="Add to Collection">
+                    {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
+                  </ActionIcon>
+                </Tooltip>
+
+                <Tooltip 
+                label={t('add-wishlist-tip')} 
+                color="violet"
+                position="bottom-start" 
+                offset={0}
+                transitionProps={{ transition: 'skew-up', duration: 300 }}> 
+                  <ActionIcon 
+                  className='add-wishlist-btn'
+                  onClick={() => dispatch(addToWishlist({ albumId: album.id, wishlistVariant: album.wishlistVariant }))} 
+                  variant={album.wishlistVariant} 
+                  size="lg" 
+                  color="violet" 
+                  aria-label="Add to Wishlist">
+                    <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
+                  </ActionIcon>
+                </Tooltip>
               </ActionIcon.Group>
             </div>
           </div>
@@ -161,7 +181,7 @@ const SearchPage = () => {
           radius="sm"
           onClick={prevPage} disabled={currentPage === 1}
         >
-          &#8592;Back
+          &#8592;{t('back-button')}
         </Button>
         <Button
           variant="outline" 
@@ -169,7 +189,7 @@ const SearchPage = () => {
           radius="sm"
           onClick={nextPage} disabled={!isNextPageEnabled}
         >
-          Next&#8594;
+          {t('next-button')}&#8594;
         </Button>
       </Group>
 
@@ -177,10 +197,10 @@ const SearchPage = () => {
         opened={drawerOpened}
         onClose={() => setDrawerOpened(false)}
         position="right"
-        title="Oops!.."
+        title={t('drawer-title')}
       >
-        <Text>Unfortunately,  these are all the albums available in our database at the moment.</Text>
-        <Text>To return to the previous page, close this notification and <Mark color="violet">press the <b>Back</b> 2 times.</Mark></Text>
+        <Text>{t('drawer-text-1')}</Text>
+        <Text>{t('drawer-text-2')} <Mark color="violet">{t('mark-text')} <b>{t('mark-bold-text')}</b> {t('mark-text-2')}</Mark></Text>
         <p></p>
         <Image
           radius="xl"
