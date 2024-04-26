@@ -11,6 +11,14 @@ const WishlistPage = () => {
   const { i18n } = useTranslation();
   const { t } = useTranslation('wishlist');
 
+  const handleRemoveFromWishlist = (albumId) => {
+    dispatch(removeFromWishlist({ albumId }));
+  };
+
+  const handleAddToCollection = (albumId, iconVariant) => {
+    dispatch(addToCollection({ albumId, iconVariant }));
+  };
+
   const logAlbumsInfo = () => {
     console.log('Albums in wishlist array', wishlist.length);
     console.log('Albums deatils:', wishlist);
@@ -19,14 +27,6 @@ const WishlistPage = () => {
   useEffect(() => {
     logAlbumsInfo();
   }, [wishlist]);
-
-  const handleRemoveFromWishlist = (albumId) => {
-    dispatch(removeFromWishlist({ albumId }));
-  };
-
-  const handleAddToCollection = (albumId, iconVariant) => {
-    dispatch(addToCollection({ albumId, iconVariant }));
-  };
 
   return (
     <div>

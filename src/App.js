@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import SearchPage from './components/SearchPage/SearchPage';
@@ -13,7 +14,7 @@ import './App.scss';
 import './translation/config'
 
 function App() {
-  // const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth } = useSelector((state) => state.auth);
   return (
     <MantineProvider
     withGlobalStyles
@@ -46,7 +47,8 @@ function App() {
               <Route path="/collection" element={<CollectionPage></CollectionPage>} />
               <Route path="/wishlist" element={<WishlistPage></WishlistPage>} />
               <Route path="/about" element={<AboutPage></AboutPage>} />
-              <Route path="/settings" element={<SettingsPage></SettingsPage>} />
+              {/* <Route path="/settings" element={<SettingsPage></SettingsPage>} /> */}
+              <Route path="/settings" element={isAuth ? <SettingsPage /> : <Navigate to='/login' />} />
               <Route path="/login" element={<LoginPage></LoginPage>} />
             </Routes>
           </div>

@@ -6,10 +6,10 @@ import { removeFromCollection, addToWishlist } from '../../store/slices/albumsSl
 import { useTranslation } from 'react-i18next';
 
 const CollectionPage = () => {
-  const { i18n } = useTranslation();
-  const { t } = useTranslation('collection');
   const dispatch = useDispatch();
   const collection = useSelector(state => state.albums.filter(album => album.iconVariant === 'filled'));
+  const { i18n } = useTranslation();
+  const { t } = useTranslation('collection');
 
   const handleRemoveFromCollection = (albumId) => {
     dispatch(removeFromCollection({ albumId }));
@@ -48,17 +48,18 @@ const CollectionPage = () => {
                     variant="filled"
                     size="lg" 
                     color="violet" 
-                    aria-label="Remove from Collection">
+                    aria-label="Remove from Collection"
+                    >
                     {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
                   </ActionIcon>
-                  <ActionIcon 
-                    onClick={() => dispatch(addToWishlist({ albumId: album.id, wishlistVariant: album.wishlistVariant }))} 
-                    // onClick={() => handleAddToWishlist(album.id, album.wishlistVariant)} 
-                    variant={album.iconVariant === 'default' ? 'default' : 'filled'} 
-                    size="lg" 
-                    color="violet" 
-                    aria-label="Add to Wishlist">
-                      <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
+                  <ActionIcon
+                    onClick={() => handleAddToWishlist(album.id, album.wishlistVariant)}
+                    variant={album.wishlistVariant === 'default' ? 'default' : 'filled'}
+                    size="lg"
+                    color="violet"
+                    aria-label="Add to Wishlist"
+                  >
+                    <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
                   </ActionIcon>
                 </ActionIcon.Group>
               </div>
