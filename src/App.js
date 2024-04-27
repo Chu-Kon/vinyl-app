@@ -47,8 +47,8 @@ function App() {
               <Route path="/collection" element={<CollectionPage></CollectionPage>} />
               <Route path="/wishlist" element={<WishlistPage></WishlistPage>} />
               <Route path="/about" element={<AboutPage></AboutPage>} />
-              {/* <Route path="/settings" element={<SettingsPage></SettingsPage>} /> */}
-              <Route path="/settings" element={isAuth ? <SettingsPage /> : <Navigate to='/login' />} />
+              <Route path="/settings" element={<SettingsPage></SettingsPage>} />
+              {/* <Route path="/settings" element={isAuth ? <SettingsPage /> : <Navigate to='/login' />} /> */}
               <Route path="/login" element={<LoginPage></LoginPage>} />
             </Routes>
           </div>

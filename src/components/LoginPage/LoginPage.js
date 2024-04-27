@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuth } from '../../store/slices/authSlice';
 import { IconX, IconCheck } from '@tabler/icons-react';
@@ -66,6 +67,7 @@ export default function LoginPage(props) {
   const [error, setError] = useState('');
   const [dialogOpened, setDialogOpened] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState('');
+  const [registeredPassword, setRegisteredPassword] = useState('');
   const form = useForm({
     initialValues: {
       email: '',
@@ -88,11 +90,16 @@ export default function LoginPage(props) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(form.values),
+        // body: JSON.stringify(form.values),
+        body: JSON.stringify({
+          email: form.values.email,
+          password: form.values.password
+        }),
       });
 
       if (response.ok) {
         setRegisteredEmail(form.values.email); 
+        setRegisteredPassword(form.values.password); 
         setDialogOpened(true);
         console.log(`User ${registeredEmail} registered successfully`);
       } else {
@@ -140,6 +147,10 @@ export default function LoginPage(props) {
   const strength = getStrength(value);
   const color = strength === 100 ? 'teal' : strength > 50 ? 'yellow' : 'red';
 
+  if (initialState.isAuth) {
+    return <Navigate to="/settings" />;
+  }
+
   return (
     <div className='login-content'>
       <Container size={420} my={40} {...props}>
@@ -151,7 +162,6 @@ export default function LoginPage(props) {
             <Stack spacing="md">
               <TextInput
                 required
-                // withAsterisk
                 label="Email"
                 placeholder="hello@mantine.dev"
                 value={form.values.email}
@@ -161,6 +171,7 @@ export default function LoginPage(props) {
                 error={form.errors.email || error}
                 radius="md"
               />
+
               {type === 'Register' && (
                 <Popover
                   opened={popoverOpened}
@@ -174,12 +185,14 @@ export default function LoginPage(props) {
                       onBlurCapture={() => setPopoverOpened(false)}
                     >
                       <PasswordInput
-                        // withAsterisk
                         required
                         label="Password"
-                        placeholder="Your password"
+                        placeholder="Password"
                         value={value}
-                        onChange={(event) => setValue(event.currentTarget.value)}
+                        onChange={(event) => {
+                          setValue(event.currentTarget.value);
+                          handleInputChange('password', event.currentTarget.value);
+                        }}
                         // error={form.errors.email || error}
                         error={error}
                       />
@@ -187,11 +200,13 @@ export default function LoginPage(props) {
                   </Popover.Target>
                   <Popover.Dropdown>
                     <Progress color={color} value={strength} size={5}/>
-                    <PasswordRequirement label="Includes at least 6 characters" meets={value.length > 5} />
+                    {/* <PasswordRequirement label="Includes at least 6 characters" meets={value.length > 5} /> */}
+                    <PasswordRequirement label="Includes at least 6 characters" meets={form.values.password.length > 5}/>
                     {checks}
                   </Popover.Dropdown>
                 </Popover>
               )}
+
               {type === 'Login' && (
                 <PasswordInput
                   withAsterisk
