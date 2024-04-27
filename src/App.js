@@ -11,7 +11,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import './App.scss';
-import './translation/config'
+import './translation/config';
 
 function App() {
   const { isAuth } = useSelector((state) => state.auth);

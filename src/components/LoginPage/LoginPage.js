@@ -4,23 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuth } from '../../store/slices/authSlice';
 import { IconX, IconCheck } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
-import {
-  TextInput,
-  PasswordInput,
-  Text,
-  Title,
-  Paper,
-  Group,
-  Button,
-  Container,
-  Anchor,
-  Stack,
-  Progress,
-  Popover,
-  Box,
-  Dialog,
-  rem
-} from '@mantine/core';
+import { TextInput, PasswordInput, Text, Title, Paper, Group, Button, Container, Anchor, Stack, Progress, Popover, Box, Dialog, rem } from '@mantine/core';
 import './LoginPage.scss';
 
 const requirements = [

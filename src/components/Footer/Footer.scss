@@ -2,10 +2,17 @@
     background-color: #000033;
     color: #fff;
     height: 50px;
+    display: flex;
 
     &__copyright{
         padding: 10px;
         margin: 0;
         max-width: 300px;
+    }
+    &__github{
+        padding: 10px;
+        &:hover {
+            color: red;
+          }
     }
 }

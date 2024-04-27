@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { JsonInput, TextInput, Button, Code } from '@mantine/core';
+import { JsonInput, TextInput, Button, Group, Code, Dialog, Text } from '@mantine/core';
+import { useSelector } from 'react-redux';
+import { setIsAuth } from '../../store/slices/authSlice';
 import './SettingsPage.scss';
 
 export default function SettingsPage() {
   const [submittedValues, setSubmittedValues] = useState('');
+  const [albumIdToDelete, setAlbumIdToDelete] = useState('');
+  const [deletedAlbumId, setDeletedAlbumId] = useState('');
+  const [deleteError, setDeleteError] = useState('');
+  const [dialogOpened, setDialogOpened] = useState(false);
+  const isAuth = useSelector((state) => state.auth.isAuth); 
+
+  const login = () => {
+    setIsAuth(true); 
+  };
+  
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -45,8 +57,33 @@ export default function SettingsPage() {
     }
   };
 
+  const deleteAlbumById = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/albums/${albumIdToDelete}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete album');
+      }
+      setDeletedAlbumId(albumIdToDelete);
+      setDialogOpened(true);
+      setAlbumIdToDelete('');
+      setDeleteError('');
+    } catch (error) {
+      console.error(error.message);
+      setDeleteError('Failed to delete album');
+    }
+  };
+
   return (
     <div className='settings-content'>
+      {!isAuth && (
+        <div className='settings-message'>
+          <p>To make changes, log in as an administrator</p>
+        </div>
+      )}
+      {isAuth && ( 
+        <>
       <h1>Settings</h1>
       <p>Here you can add new albums to the database. Please follow the template provided.</p>
       <JsonInput
@@ -146,14 +183,49 @@ export default function SettingsPage() {
           key={form.key('picture')}
           {...form.getInputProps('picture')}
         />
-        <Button type="submit" mt="md">Submit</Button>
-        <Button mt="md" onClick={() => form.reset()}>Reset to initial values</Button>
+        <Group>
+          <Button type="submit" mt="md" color="violet">Submit</Button>
+          <Button mt="md" color="violet" onClick={() => form.reset()}>Reset to initial values</Button>
+        </Group>
       </form>
-      <p>Last added album:</p>
+
       {submittedValues && (
-        <Code block mt="md">
-          {submittedValues}
-        </Code>
+        <div>
+          <p>Last added album:</p>
+          <Code block mt="md">
+            {submittedValues}
+          </Code>
+        </div>
+      )}
+      
+      <TextInput
+        label="Enter album ID to delete"
+        placeholder="Album ID"
+        value={albumIdToDelete}
+        onChange={(event) => setAlbumIdToDelete(event.target.value)}
+        mt="md"
+        error={deleteError}
+      />
+      <Button
+        variant="outline"
+        color="red"
+        onClick={deleteAlbumById}
+        mt="sm"
+      >
+        Delete album by ID
+      </Button>
+      <Dialog
+        withCloseButton 
+        opened={dialogOpened}
+        onClose={() => setDialogOpened(false)}
+        size="sm"
+        title="Remove Status"
+      >
+        <Text size="sm" mb="xs" fw={500} c='green'>
+          Album with ID {deletedAlbumId} removed successfully
+        </Text>
+      </Dialog>
+      </>
       )}
     </div>
   );
