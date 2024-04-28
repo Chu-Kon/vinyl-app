@@ -1,0 +1,18 @@
+{
+    "login-title": "Добро пожаловать!",
+    "login-email": "Электорнная почта",
+    "login-password": "Пароль",
+    "login-password-placeholder-reg": "Придумайте пароль",
+    "login-password-placeholder-log": "Ваш пароль",
+    "login-toggle-text-log": "Уже есть аккаунт? Войдите",
+    "login-toggle-text-reg": "Ещё нет аккаунта? Зарегистрируйтесь",
+    "login-error": "Неверный адрес эл.почты или пароль",
+    "login-require-1": "Включает не менее 6 символов",
+    "login-require-2": "Включает цифру",
+    "login-require-3": "Включает строчную букву",
+    "login-require-4": "Включает заглавную букву",
+    "login-require-5": "Включает спец.символ",
+    "login-dialog-title": "Статус регистрации",
+    "login-dialog-text": "Пользователь ",
+    "login-dialog-text-2": " успешно зарегистрирован"
+}

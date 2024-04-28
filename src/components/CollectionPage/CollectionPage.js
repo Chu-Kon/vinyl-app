@@ -1,15 +1,14 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ActionIcon, rem, Image, Mark, Modal, Text, Tooltip } from '@mantine/core';
-import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from '@tabler/icons-react';
-import { removeFromCollection, addToWishlist } from '../../store/slices/albumsSlice';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ActionIcon, rem, Image, Tooltip } from "@mantine/core";
+import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from "@tabler/icons-react";
+import { removeFromCollection, addToWishlist } from "../../store/slices/albumsSlice";
+import { useTranslation } from "react-i18next";
 
 const CollectionPage = () => {
   const dispatch = useDispatch();
-  const collection = useSelector(state => state.albums.filter(album => album.iconVariant === 'filled'));
-  const { i18n } = useTranslation();
-  const { t } = useTranslation('collection');
+  const collection = useSelector(state => state.albums.filter(album => album.iconVariant === "filled"));
+  const { t } = useTranslation("collection");
 
   const handleRemoveFromCollection = (albumId) => {
     dispatch(removeFromCollection({ albumId }));
@@ -21,9 +20,9 @@ const CollectionPage = () => {
 
   return (
     <div>
-      <h1>{t('collection-title')}</h1>
+      <h1>{t("collection-title")}</h1>
       {collection.length === 0 ? (
-        <p>{t('collection-text')}</p>
+        <p>{t("collection-text")}</p>
       ) : (
         <div className="albums-container">
           {collection.map(album => (
@@ -35,7 +34,7 @@ const CollectionPage = () => {
                   color="violet"
                   position="top-start" 
                   offset={0}
-                  transitionProps={{ transition: 'skew-up', duration: 300 }}> 
+                  transitionProps={{ transition: "skew-up", duration: 300 }}> 
                   <h2>{album.title}</h2>
                 </Tooltip>
                 <p>{album.artist}</p>
@@ -54,7 +53,7 @@ const CollectionPage = () => {
                   </ActionIcon>
                   <ActionIcon
                     onClick={() => handleAddToWishlist(album.id, album.wishlistVariant)}
-                    variant={album.wishlistVariant === 'default' ? 'default' : 'filled'}
+                    variant={album.wishlistVariant === "default" ? "default" : "filled"}
                     size="lg"
                     color="violet"
                     aria-label="Add to Wishlist"

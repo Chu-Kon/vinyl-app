@@ -10,6 +10,10 @@ import wishlistEn from './en/wishlistEN.json';
 import wishlistRu from './ru/wishlistRU.json';
 import aboutEn from './en/aboutEN.json';
 import aboutRu from './ru/aboutRU.json';
+import settingsEn from './en/settingsEN.json';
+import settingsRu from './ru/settingsRU.json';
+import loginEn from './en/loginEN.json';
+import loginRu from './ru/loginRU.json';
 import footerEn from './en/footerEN.json';
 import footerRu from './ru/footerRU.json';
 
@@ -21,6 +25,8 @@ const resources = {
         collection: collectionEn,
         wishlist: wishlistEn,
         about: aboutEn,
+        settings: settingsEn,
+        login: loginEn,
         footer: footerEn
     },
     ru: {
@@ -29,6 +35,8 @@ const resources = {
         collection: collectionRu,
         wishlist: wishlistRu,
         about: aboutRu,
+        settings: settingsRu,
+        login: loginRu,
         footer: footerRu
     }
 }
@@ -37,7 +45,7 @@ i18next.use(initReactI18next).init({
     resources,
     lng: 'en',
     fallback: 'en',
-    ns: ['header', 'search', 'collection', 'wishlist', 'about', 'footer'],
+    ns: ['header', 'search', 'collection', 'wishlist', 'about', 'settings', 'login', 'footer'],
     interpolation: {
         escapeValue: false
     }

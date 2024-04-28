@@ -1,35 +1,37 @@
-import React, { useState } from 'react';
-import { useForm } from '@mantine/form';
-import { JsonInput, TextInput, Button, Group, Code, Dialog, Text } from '@mantine/core';
-import { useSelector } from 'react-redux';
-import { setIsAuth } from '../../store/slices/authSlice';
-import './SettingsPage.scss';
+import React, { useState } from "react";
+import { useForm } from "@mantine/form";
+import { JsonInput, TextInput, Button, Group, Code, Dialog, Text } from "@mantine/core";
+import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { setIsAuth } from "../../store/slices/authSlice";
+import "./SettingsPage.scss";
 
 export default function SettingsPage() {
-  const [submittedValues, setSubmittedValues] = useState('');
-  const [albumIdToDelete, setAlbumIdToDelete] = useState('');
-  const [deletedAlbumId, setDeletedAlbumId] = useState('');
-  const [deleteError, setDeleteError] = useState('');
+  const [submittedValues, setSubmittedValues] = useState("");
+  const [albumIdToDelete, setAlbumIdToDelete] = useState("");
+  const [deletedAlbumId, setDeletedAlbumId] = useState("");
+  const [deleteError, setDeleteError] = useState("");
   const [dialogOpened, setDialogOpened] = useState(false);
   const isAuth = useSelector((state) => state.auth.isAuth); 
+  const { t } = useTranslation("settings");
 
   const login = () => {
     setIsAuth(true); 
   };
   
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
-      type: 'album',
-      id: '',
-      title: '',
-      artist: '',
-      artistLink: '',
-      upc: '',
-      releaseDate: '',
-      nbTracks: '',
-      albumLink: '',
-      picture: ''
+      type: "album",
+      id: "",
+      title: "",
+      artist: "",
+      artistLink: "",
+      upc: "",
+      releaseDate: "",
+      nbTracks: "",
+      albumLink: "",
+      picture: ""
     }
   });
 
@@ -40,15 +42,15 @@ export default function SettingsPage() {
   const sendDataToServer = async (data) => {
     data.id = generateUniqueId();
     try {
-      const response = await fetch('http://localhost:3000/albums', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/albums", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
       });
       if (!response.ok) {
-        throw new Error('Failed to add album');
+        throw new Error("Failed to add album");
       }
       const responseData = await response.json();
       setSubmittedValues(JSON.stringify(responseData, null, 2));
@@ -60,32 +62,32 @@ export default function SettingsPage() {
   const deleteAlbumById = async () => {
     try {
       const response = await fetch(`http://localhost:3000/albums/${albumIdToDelete}`, {
-        method: 'DELETE'
+        method: "DELETE"
       });
       if (!response.ok) {
-        throw new Error('Failed to delete album');
+        throw new Error("Failed to delete album");
       }
       setDeletedAlbumId(albumIdToDelete);
       setDialogOpened(true);
-      setAlbumIdToDelete('');
-      setDeleteError('');
+      setAlbumIdToDelete("");
+      setDeleteError("");
     } catch (error) {
       console.error(error.message);
-      setDeleteError('Failed to delete album');
+      setDeleteError(t("settings-delete-error"));
     }
   };
 
   return (
-    <div className='settings-content'>
+    <div className="settings-content">
       {!isAuth && (
-        <div className='settings-message'>
-          <p>To make changes, log in as an administrator</p>
+        <div className="settings-message">
+          <p>{t("settings-message")}</p>
         </div>
       )}
       {isAuth && ( 
         <>
-      <h1>Settings</h1>
-      <p>Here you can add new albums to the database. Please follow the template provided.</p>
+      <h1>{t("settings-title")}</h1>
+      <p>{t("settings-text")}</p>
       <JsonInput
         disabled
         defaultValue='{ 
@@ -99,99 +101,99 @@ export default function SettingsPage() {
           "nbTracks": "1",
           "albumLink": "https:/open.spotify.com/album/7s5gKFHMzzMHyLE2KFXNkR",
           "picture": "https:/i.scdn.co/image/ab67616d00001e02cec62b81146fe4d116fbb2fa"
-        }' 
-        label="Template" 
+        }'
+        label={t("settings-template")}
         placeholder="Disabled" />
 
       <form onSubmit={form.onSubmit((values) => sendDataToServer(values))}>
         <TextInput
-          label="type"
+          label={t("settings-input-type")}
           placeholder="album"
           defaultValue="album"
-          key={form.key('album')}
-          {...form.getInputProps('type')}
+          key={form.key("album")}
+          {...form.getInputProps("type")}
         />
         <TextInput
-          label="id"
-          placeholder="Auto-generated"
+          label={t("settings-input-id")}
+          placeholder={t("settings-input-id-text")}
           mt="md"
-          key={form.key('id')}
-          {...form.getInputProps('id')}
+          key={form.key("id")}
+          {...form.getInputProps("id")}
           disabled
         />
         <TextInput
-          label="title"
+          label={t("settings-input-title")}
           placeholder="Crying in the Club"
           defaultValue=""
           mt="md"
-          key={form.key('title')}
-          {...form.getInputProps('title')}
+          key={form.key("title")}
+          {...form.getInputProps("title")}
         />
         <TextInput
-          label="artist"
+          label={t("settings-input-artist")}
           placeholder="Camila Cabello"
           defaultValue=""
           mt="md"
-          key={form.key('artist')}
-          {...form.getInputProps('artist')}
+          key={form.key("artist")}
+          {...form.getInputProps("artist")}
         />
         <TextInput
-          label="artistLink"
+          label={t("settings-input-artist-link")}
           placeholder="https://open.spotify.com/artist/4nDoRrQiYLoBzwC5BhVJzF"
           defaultValue=""
           mt="md"
-          key={form.key('artistLink')}
-          {...form.getInputProps('artistLink')}
+          key={form.key("artistLink")}
+          {...form.getInputProps("artistLink")}
         />
         <TextInput
-          label="upc"
+          label={t("settings-input-upc")}
           placeholder="886446504209"
           defaultValue=""
           mt="md"
-          key={form.key('upc')}
-          {...form.getInputProps('upc')}
+          key={form.key("upc")}
+          {...form.getInputProps("upc")}
         />
         <TextInput
-          label="releaseDate"
+          label={t("settings-input-release-date")}
           placeholder="1495065600"
           defaultValue=""
           mt="md"
-          key={form.key('releaseDate')}
-          {...form.getInputProps('releaseDate')}
+          key={form.key("releaseDate")}
+          {...form.getInputProps("releaseDate")}
         />
         <TextInput
-          label="nbTracks"
+          label={t("settings-input-tracks-numbers")}
           placeholder="10"
           defaultValue=""
           mt="md"
-          key={form.key('nbTracks')}
-          {...form.getInputProps('nbTracks')}
+          key={form.key("nbTracks")}
+          {...form.getInputProps("nbTracks")}
         />
         <TextInput
-          label="albumLink"
+          label={t("settings-input-album-link")}
           placeholder="https://open.spotify.com/album/7s5gKFHMzzMHyLE2KFXNkR"
           defaultValue=""
           mt="md"
-          key={form.key('albumLink')}
-          {...form.getInputProps('albumLink')}
+          key={form.key("albumLink")}
+          {...form.getInputProps("albumLink")}
         />
         <TextInput
-          label="picture"
+          label={t("settings-input-picture")}
           placeholder="https://i.scdn.co/image/ab67616d00001e02cec62b81146fe4d116fbb2fa"
           defaultValue=""
           mt="md"
-          key={form.key('picture')}
-          {...form.getInputProps('picture')}
+          key={form.key("picture")}
+          {...form.getInputProps("picture")}
         />
         <Group>
-          <Button type="submit" mt="md" color="violet">Submit</Button>
-          <Button mt="md" color="violet" onClick={() => form.reset()}>Reset to initial values</Button>
+          <Button type="submit" mt="md" color="violet">{t("settings-submit-button")}</Button>
+          <Button mt="md" color="violet" onClick={() => form.reset()}>{t("settings-reset-button")}</Button>
         </Group>
       </form>
 
       {submittedValues && (
         <div>
-          <p>Last added album:</p>
+          <p>{t("settings-last-added-album")}</p>
           <Code block mt="md">
             {submittedValues}
           </Code>
@@ -199,8 +201,8 @@ export default function SettingsPage() {
       )}
       
       <TextInput
-        label="Enter album ID to delete"
-        placeholder="Album ID"
+        label={t("settings-delete-title")}
+        placeholder={t("settings-delete-placeholder")}
         value={albumIdToDelete}
         onChange={(event) => setAlbumIdToDelete(event.target.value)}
         mt="md"
@@ -212,17 +214,17 @@ export default function SettingsPage() {
         onClick={deleteAlbumById}
         mt="sm"
       >
-        Delete album by ID
+        {t("settings-delete-button")}
       </Button>
       <Dialog
         withCloseButton 
         opened={dialogOpened}
         onClose={() => setDialogOpened(false)}
         size="sm"
-        title="Remove Status"
+        title={t("settings-dialog-title")}
       >
-        <Text size="sm" mb="xs" fw={500} c='green'>
-          Album with ID {deletedAlbumId} removed successfully
+        <Text size="sm" mb="xs" fw={500} c="green">
+          {t("settings-dialog-text-1")} {deletedAlbumId} {t("settings-dialog-text-2")} 
         </Text>
       </Dialog>
       </>
