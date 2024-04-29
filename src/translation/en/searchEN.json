@@ -15,5 +15,9 @@
     "drawer-text-2": "To return to the previous page, close this notification and",
     "mark-text": "press the ",
     "mark-bold-text": "Back",
-    "mark-text-2": " 2 times."
+    "mark-text-2": " 2 times.",
+    "modal-album": "Album title:",
+    "modal-artist": "Artist:",
+    "modal-release": "Release Date:",
+    "modal-tracks": "Number of Tracks:"
 }

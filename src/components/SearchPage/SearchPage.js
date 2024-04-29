@@ -1,14 +1,11 @@
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ActionIcon, rem, Drawer, Group, Button, Mark, Text, Image, TextInput, NativeSelect, Modal, Tooltip } from "@mantine/core";
-import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from "@tabler/icons-react";
-import { setAlbums, addToCollection, addToWishlist } from "../../store/slices/albumsSlice";
+import { IconHeart, IconHeartFilled, IconPlus, IconCheck, IconBrandSpotifyFilled } from "@tabler/icons-react";
+import { setAlbums, addToCollection, addToWishlist, removeFromWishlist, removeFromCollection } from "../../store/slices/albumsSlice";
 import { setCurrentPage } from "../../store/slices/currentPageSlice";
 import { useTranslation } from "react-i18next";
 import "./SearchPage.scss";
-
-
 
 const SearchPage = () => {
   const dispatch = useDispatch();
@@ -48,6 +45,32 @@ const SearchPage = () => {
     fetchAlbums();
   }, [currentPage, dispatch]);
 
+  useEffect(() => {
+    console.log("Albums in state:", albums);
+  }, [albums]);
+
+  
+  const handleAddToWishlist = (album) => {
+    const isInWishlist = albums.wishlist.some(item => item.id === album.id);
+    
+    if (isInWishlist) {
+      dispatch(removeFromWishlist({ albumId: album.id }));
+    } else {
+      dispatch(addToWishlist({ albumId: album.id }));
+    }
+  };
+
+  const handleAddToCollection = (album) => {
+    const isInCollection = albums.collection.some(item => item.id === album.id);
+    
+    if (isInCollection) {
+      dispatch(removeFromCollection({ albumId: album.id }));
+    } else {
+      dispatch(addToCollection({ albumId: album.id }));
+    }
+  };
+  
+
   const prevPage = () => {
     const newPage = currentPage - 1;
     dispatch(setCurrentPage(newPage));
@@ -66,7 +89,8 @@ const SearchPage = () => {
     setSortingOption(event.currentTarget.value);
   };
 
-  const filteredAlbums = albums.filter(album =>
+
+  const filteredAlbums = albums.albums.filter(album =>
     album.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -112,6 +136,8 @@ const SearchPage = () => {
           { value: "reverseAlphabetical", label: t("sort-reverse") },
         ]}
       />
+
+
       <div className="albums-container">
         {sortedAlbums.map(album => (
           <div key={album.id} className="album-card">
@@ -123,11 +149,11 @@ const SearchPage = () => {
             />
             <div onClick={() => openModal(album)} style={{ cursor: "pointer" }}>
               <Tooltip 
-              label={album.title}
-              color="violet"
-              position="top-start" 
-              offset={0}
-              transitionProps={{ transition: "skew-up", duration: 300 }}> 
+                label={album.title}
+                color="violet"
+                position="top-start" 
+                offset={0}
+                transitionProps={{ transition: "skew-up", duration: 300 }}> 
                 <h2>{album.title}</h2>
               </Tooltip>
               <p>{album.artist}</p>
@@ -136,36 +162,37 @@ const SearchPage = () => {
             <div className="buttons-container">
               <ActionIcon.Group>
                 <Tooltip 
-                label={t("add-collection-tip")} 
-                color="violet"
-                position="bottom-start" 
-                offset={0}
-                transitionProps={{ transition: "skew-up", duration: 300 }}> 
-                  <ActionIcon 
-                  className="add-collection-btn"
-                  onClick={() => dispatch(addToCollection({ albumId: album.id, iconVariant: album.iconVariant }))} 
-                  variant={album.iconVariant} 
-                  size="lg" 
-                  color="violet" 
-                  aria-label="Add to Collection">
-                    {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
-                  </ActionIcon>
+                  label={t("add-collection-tip")} 
+                  color="violet"
+                  position="bottom-start" 
+                  offset={0}
+                  transitionProps={{ transition: "skew-up", duration: 300 }}> 
+                    <ActionIcon 
+                      className="add-collection-btn"
+                      onClick={() => handleAddToCollection(album)} 
+                      variant={album.iconVariant} 
+                      size="lg" 
+                      color="violet" 
+                      aria-label="Add to Collection"
+                    >
+                      {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
+                    </ActionIcon>
                 </Tooltip>
 
                 <Tooltip 
-                label={t("add-wishlist-tip")} 
-                color="violet"
-                position="bottom-start" 
-                offset={0}
-                transitionProps={{ transition: "skew-up", duration: 300 }}> 
+                  label={t("add-wishlist-tip")} 
+                  color="violet"
+                  position="bottom-start" 
+                  offset={0}
+                  transitionProps={{ transition: "skew-up", duration: 300 }}> 
                   <ActionIcon 
-                  className="add-wishlist-btn"
-                  onClick={() => dispatch(addToWishlist({ albumId: album.id, wishlistVariant: album.wishlistVariant }))} 
-                  variant={album.wishlistVariant} 
-                  size="lg" 
-                  color="violet" 
-                  aria-label="Add to Wishlist">
-                    <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
+                    className="add-wishlist-btn"
+                    onClick={() => handleAddToWishlist(album)} 
+                    variant={album.wishlistVariant} 
+                    size="lg" 
+                    color="violet" 
+                    aria-label="Add to Wishlist">
+                      {album.wishlistVariant === "default" ? <IconHeart stroke={2} /> : <IconHeartFilled stroke={2} />}
                   </ActionIcon>
                 </Tooltip>
               </ActionIcon.Group>
@@ -173,6 +200,7 @@ const SearchPage = () => {
           </div>
         ))}
       </div>
+
       <Group className="nav-buttons">
         <Button
           variant="outline" 
@@ -218,10 +246,10 @@ const SearchPage = () => {
             <div className="modal-image">
               <Image src={selectedAlbum.picture} alt={selectedAlbum.title} />
             </div>
-            <p><strong>Album title:</strong> <a href={selectedAlbum.albumLink} target="_blank">{selectedAlbum.title}</a></p>
-            <p><strong>Artist:</strong> <a href={selectedAlbum.artistLink} target="_blank">{selectedAlbum.artist}</a></p>
-            <p><strong>Release Date:</strong> {new Date(selectedAlbum.releaseDate * 1000).toLocaleDateString()}</p>
-            <p><strong>Number of Tracks:</strong> {selectedAlbum.nbTracks}</p>
+            <p><strong>{t("modal-album")}</strong> <a href={selectedAlbum.albumLink} target="_blank">{selectedAlbum.title}</a></p>
+            <p><strong>{t("modal-artist")}</strong> <a href={selectedAlbum.artistLink} target="_blank">{selectedAlbum.artist}</a></p>
+            <p><strong>{t("modal-release")}</strong> {new Date(selectedAlbum.releaseDate * 1000).toLocaleDateString()}</p>
+            <p><strong>{t("modal-tracks")}</strong> {selectedAlbum.nbTracks}</p>
           </div>
         )}
       </Modal>

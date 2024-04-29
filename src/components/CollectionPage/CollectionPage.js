@@ -1,22 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ActionIcon, rem, Image, Tooltip } from "@mantine/core";
-import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from "@tabler/icons-react";
-import { removeFromCollection, addToWishlist } from "../../store/slices/albumsSlice";
+import { ActionIcon, Image, Tooltip } from "@mantine/core";
+import { IconPlus, IconCheck, IconBrandSpotifyFilled } from "@tabler/icons-react";
+import { removeFromCollection } from "../../store/slices/albumsSlice";
 import { useTranslation } from "react-i18next";
 
 const CollectionPage = () => {
   const dispatch = useDispatch();
-  const collection = useSelector(state => state.albums.filter(album => album.iconVariant === "filled"));
+  const collection = useSelector(state => state.albums.collection);
   const { t } = useTranslation("collection");
 
   const handleRemoveFromCollection = (albumId) => {
     dispatch(removeFromCollection({ albumId }));
   };
 
-  const handleAddToWishlist = (albumId, wishlistVariant) => {
-    dispatch(addToWishlist({ albumId, wishlistVariant }));
+  const logAlbumsInfo = () => {
+    console.log("Albums in collection array", collection.length);
+    console.log("Albums details:", collection);
   };
+  
+  useEffect(() => {
+    logAlbumsInfo();
+  }, [collection]);
 
   return (
     <div>
@@ -48,17 +53,8 @@ const CollectionPage = () => {
                     size="lg" 
                     color="violet" 
                     aria-label="Remove from Collection"
-                    >
-                    {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
-                  </ActionIcon>
-                  <ActionIcon
-                    onClick={() => handleAddToWishlist(album.id, album.wishlistVariant)}
-                    variant={album.wishlistVariant === "default" ? "default" : "filled"}
-                    size="lg"
-                    color="violet"
-                    aria-label="Add to Wishlist"
                   >
-                    <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
+                    {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
                   </ActionIcon>
                 </ActionIcon.Group>
               </div>

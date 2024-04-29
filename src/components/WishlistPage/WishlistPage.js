@@ -1,26 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ActionIcon, rem, Image, Tooltip } from "@mantine/core";
-import { IconHeart, IconPlus, IconCheck, IconBrandSpotifyFilled } from "@tabler/icons-react";
-import { addToCollection, removeFromWishlist } from "../../store/slices/albumsSlice";
+import { ActionIcon, Image, Tooltip } from "@mantine/core";
+import { IconHeart, IconHeartFilled, IconBrandSpotifyFilled } from "@tabler/icons-react";
+import { removeFromWishlist } from "../../store/slices/albumsSlice";
 import { useTranslation } from "react-i18next";
 
 const WishlistPage = () => {
   const dispatch = useDispatch();
-  const wishlist = useSelector(state => state.albums.filter(album => album.wishlistVariant === "filled"));
+  const wishlist = useSelector(state => state.albums.wishlist);
   const { t } = useTranslation("wishlist");
 
   const handleRemoveFromWishlist = (albumId) => {
     dispatch(removeFromWishlist({ albumId }));
   };
 
-  const handleAddToCollection = (albumId, iconVariant) => {
-    dispatch(addToCollection({ albumId, iconVariant }));
-  };
-
   const logAlbumsInfo = () => {
     console.log("Albums in wishlist array", wishlist.length);
-    console.log("Albums deatils:", wishlist);
+    console.log("Albums details:", wishlist);
   };
   
   useEffect(() => {
@@ -50,24 +46,14 @@ const WishlistPage = () => {
               </div>
               <a href={album.albumLink} target="_blank">Listen on Spotify <IconBrandSpotifyFilled /></a>
               <div className="buttons-container">
-                <ActionIcon.Group>
-                  <ActionIcon 
-                    onClick={() => handleAddToCollection(album.id, album.iconVariant)} 
-                    variant={album.iconVariant} 
-                    size="lg" 
-                    color="violet" 
-                    aria-label="Add to Collection">
-                    {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
-                  </ActionIcon>
-                  <ActionIcon 
-                    onClick={() => handleRemoveFromWishlist(album.id)} 
-                    variant="filled"
-                    size="lg" 
-                    color="violet" 
-                    aria-label="Remove from Wishlist">
-                    <IconHeart style={{ width: rem(26), height: rem(26) }} stroke={2}/>
-                  </ActionIcon>
-                </ActionIcon.Group>
+                <ActionIcon 
+                  onClick={() => handleRemoveFromWishlist(album.id)} 
+                  variant={album.wishlistVariant} 
+                  size="lg" 
+                  color="violet" 
+                  aria-label="Remove from Wishlist">
+                    {album.wishlistVariant === "default" ? <IconHeart stroke={2} /> : <IconHeartFilled stroke={2} />}
+                </ActionIcon>
               </div>
             </div>
           ))}
