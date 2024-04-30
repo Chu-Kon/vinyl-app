@@ -1,0 +1,23 @@
+{
+    "search-title": "Альбомы",
+    "search-input": "Искать альбомы...",
+    "sorter-title": "Отсортировано по",
+    "sort-default": "Умолчанию",
+    "sort-alphabetical": "Алфавиту",
+    "sort-reverse": "С конца алфавита",
+    "spotify-link": "Слушать на Spotify",
+    "add-collection-tip": "Добавить в коллекцию",
+    "add-wishlist-tip": "Добавить в желаемое",
+    "back-button": "Назад",
+    "next-button": "Вперед",
+    "drawer-title": "Ой!..",
+    "drawer-text-1": "К сожалению, это все альбомы, доступные на данный момент в нашей базе данных.",
+    "drawer-text-2": "Чтобы вернуться на предыдущую страницу, закройте это уведомление и",
+    "mark-text": "нажмите кнопку ",
+    "mark-bold-text": "Назад",
+    "mark-text-2": " 2 раза.",
+    "modal-album": "Название альбома:",
+    "modal-artist": "Исполнитель:",
+    "modal-release": "Дата выхода:",
+    "modal-tracks": "Количество треков:"
+}

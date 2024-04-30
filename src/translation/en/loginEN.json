@@ -1,0 +1,18 @@
+{
+    "login-title": "Welcome back!",
+    "login-email": "Email",
+    "login-password": "Password",
+    "login-password-placeholder-reg": "Create password",
+    "login-password-placeholder-log": "Your password",
+    "login-toggle-text-log":"Already have an account? Login",
+    "login-toggle-text-reg":"Don't have an account? Register",
+    "login-error": "Incorrect email or password",
+    "login-require-1": "Includes at least 6 characters",
+    "login-require-2": "Includes number",
+    "login-require-3": "Includes lowercase letter",
+    "login-require-4": "Includes uppercase letter",
+    "login-require-5": "Includes special symbol",
+    "login-dialog-title": "Registration Status",
+    "login-dialog-text": "User ",
+    "login-dialog-text-2": " registered successfully"
+}

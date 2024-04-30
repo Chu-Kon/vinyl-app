@@ -1,0 +1,260 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ActionIcon, rem, Drawer, Group, Button, Mark, Text, Image, TextInput, NativeSelect, Modal, Tooltip } from "@mantine/core";
+import { IconHeart, IconHeartFilled, IconPlus, IconCheck, IconBrandSpotifyFilled } from "@tabler/icons-react";
+import { setAlbums, addToCollection, addToWishlist, removeFromWishlist, removeFromCollection } from "../../store/slices/albumsSlice";
+import { setCurrentPage } from "../../store/slices/currentPageSlice";
+import { useTranslation } from "react-i18next";
+import "./SearchPage.scss";
+
+const SearchPage = () => {
+  const dispatch = useDispatch();
+  const albums = useSelector(state => state.albums);
+  const currentPage = useSelector(state => state.currentPage);
+  const albumsPerPage = 8;
+  const [drawerOpened, setDrawerOpened] = useState(false);
+  const [isNextPageEnabled, setIsNextPageEnabled] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortingOption, setSortingOption] = useState("default");
+  const [selectedAlbum, setSelectedAlbum] = useState(null);
+  const [modalOpened, setModalOpened] = useState(false);
+  const { t } = useTranslation("search");
+
+  useEffect(() => {
+    const fetchAlbums = async () => {
+      try {
+        const startIndex = (currentPage - 1) * albumsPerPage;
+        const response = await fetch(`http://localhost:3000/albums?_start=${startIndex}&_limit=${albumsPerPage}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch albums");
+        }
+        const data = await response.json();
+        console.log("Fetched albums:", data);
+        if (data.length === 0) {
+          setIsNextPageEnabled(false);
+          setDrawerOpened(true);
+        } else {
+          setIsNextPageEnabled(true);
+          setDrawerOpened(false);
+          dispatch(setAlbums(data));
+        }
+      } catch (error) {
+        console.error("Error fetching albums:", error);
+      }
+    };
+    fetchAlbums();
+  }, [currentPage, dispatch]);
+
+  useEffect(() => {
+    console.log("Albums in state:", albums);
+  }, [albums]);
+
+  
+  const handleAddToWishlist = (album) => {
+    const isInWishlist = albums.wishlist.some(item => item.id === album.id);
+    
+    if (isInWishlist) {
+      dispatch(removeFromWishlist({ albumId: album.id }));
+    } else {
+      dispatch(addToWishlist({ albumId: album.id }));
+    }
+  };
+
+  const handleAddToCollection = (album) => {
+    const isInCollection = albums.collection.some(item => item.id === album.id);
+    
+    if (isInCollection) {
+      dispatch(removeFromCollection({ albumId: album.id }));
+    } else {
+      dispatch(addToCollection({ albumId: album.id }));
+    }
+  };
+  
+
+  const prevPage = () => {
+    const newPage = currentPage - 1;
+    dispatch(setCurrentPage(newPage));
+    console.log("Current page:", newPage);
+  };
+
+  const nextPage = () => {
+    if (isNextPageEnabled) {
+      const newPage = currentPage + 1;
+      dispatch(setCurrentPage(newPage));
+      console.log("Current page:", newPage);
+    }
+  };
+
+  const handleSortingChange = (event) => {
+    setSortingOption(event.currentTarget.value);
+  };
+
+
+  const filteredAlbums = albums.albums.filter(album =>
+    album.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  let sortedAlbums = [...filteredAlbums];
+
+  switch (sortingOption) {
+    case "alphabetical":
+      sortedAlbums = [...filteredAlbums].sort((a, b) => a.title.localeCompare(b.title));
+      break;
+    case "reverseAlphabetical":
+      sortedAlbums = [...filteredAlbums].sort((a, b) => b.title.localeCompare(a.title));
+      break;
+    default:
+      sortedAlbums = [...filteredAlbums];
+  }
+
+  const openModal = (album) => {
+    setSelectedAlbum(album);
+    setModalOpened(true);
+  };
+
+  const closeModal = () => {
+    setSelectedAlbum(null);
+    setModalOpened(false);
+  };
+
+  return (
+    <div>
+      <h1>{t("search-title")}</h1>
+      <TextInput
+        value={searchQuery}
+        onChange={(event) => setSearchQuery(event.currentTarget.value)}
+        placeholder={t("search-input")}
+      />
+      <NativeSelect
+        className="sort-selector"
+        label={t("sorter-title")}
+        value={sortingOption}
+        onChange={handleSortingChange}
+        data={[
+          { value: "default", label: t("sort-default") },
+          { value: "alphabetical", label: t("sort-alphabetical") },
+          { value: "reverseAlphabetical", label: t("sort-reverse") },
+        ]}
+      />
+
+
+      <div className="albums-container">
+        {sortedAlbums.map(album => (
+          <div key={album.id} className="album-card">
+            <Image
+              src={album.picture}
+              alt={album.title}
+              onClick={() => openModal(album)}
+              style={{ cursor: "pointer" }}
+            />
+            <div onClick={() => openModal(album)} style={{ cursor: "pointer" }}>
+              <Tooltip 
+                label={album.title}
+                color="violet"
+                position="top-start" 
+                offset={0}
+                transitionProps={{ transition: "skew-up", duration: 300 }}> 
+                <h2>{album.title}</h2>
+              </Tooltip>
+              <p>{album.artist}</p>
+            </div>
+            <a href={album.albumLink} target="_blank">{t("spotify-link")}<IconBrandSpotifyFilled /></a>
+            <div className="buttons-container">
+              <ActionIcon.Group>
+                <Tooltip 
+                  label={t("add-collection-tip")} 
+                  color="violet"
+                  position="bottom-start" 
+                  offset={0}
+                  transitionProps={{ transition: "skew-up", duration: 300 }}> 
+                    <ActionIcon 
+                      className="add-collection-btn"
+                      onClick={() => handleAddToCollection(album)} 
+                      variant={album.iconVariant} 
+                      size="lg" 
+                      color="violet" 
+                      aria-label="Add to Collection"
+                    >
+                      {album.iconVariant === "default" ? <IconPlus stroke={2} /> : <IconCheck stroke={2} />}
+                    </ActionIcon>
+                </Tooltip>
+
+                <Tooltip 
+                  label={t("add-wishlist-tip")} 
+                  color="violet"
+                  position="bottom-start" 
+                  offset={0}
+                  transitionProps={{ transition: "skew-up", duration: 300 }}> 
+                  <ActionIcon 
+                    className="add-wishlist-btn"
+                    onClick={() => handleAddToWishlist(album)} 
+                    variant={album.wishlistVariant} 
+                    size="lg" 
+                    color="violet" 
+                    aria-label="Add to Wishlist">
+                      {album.wishlistVariant === "default" ? <IconHeart stroke={2} /> : <IconHeartFilled stroke={2} />}
+                  </ActionIcon>
+                </Tooltip>
+              </ActionIcon.Group>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Group className="nav-buttons">
+        <Button
+          variant="outline" 
+          color="violet"
+          radius="sm"
+          onClick={prevPage} disabled={currentPage === 1}
+        >
+          &#8592;{t("back-button")}
+        </Button>
+        <Button
+          variant="outline" 
+          color="violet"
+          radius="sm"
+          onClick={nextPage} disabled={!isNextPageEnabled}
+        >
+          {t("next-button")}&#8594;
+        </Button>
+      </Group>
+
+      <Drawer
+        opened={drawerOpened}
+        onClose={() => setDrawerOpened(false)}
+        position="right"
+        title={t("drawer-title")}
+      >
+        <Text>{t("drawer-text-1")}</Text>
+        <Text>{t("drawer-text-2")} <Mark color="violet">{t("mark-text")} <b>{t("mark-bold-text")}</b> {t("mark-text-2")}</Mark></Text>
+        <p></p>
+        <Image
+          radius="xl"
+          alt="Pin-up girl with thought bubble inscription Oops"
+          src="https://avatars.dzeninfra.ru/get-zen_doc/50840/pub_5c863e3846ebf300b3df0246_5c863e466508fd00b373cf97/scale_1200"
+        />
+      </Drawer>
+
+      <Modal
+      opened={modalOpened}
+      onClose={closeModal}
+      title={<p className="modal-title">{selectedAlbum ? selectedAlbum.title : ""}</p>}
+      >
+        {selectedAlbum && (
+          <div>
+            <div className="modal-image">
+              <Image src={selectedAlbum.picture} alt={selectedAlbum.title} />
+            </div>
+            <p><strong>{t("modal-album")}</strong> <a href={selectedAlbum.albumLink} target="_blank">{selectedAlbum.title}</a></p>
+            <p><strong>{t("modal-artist")}</strong> <a href={selectedAlbum.artistLink} target="_blank">{selectedAlbum.artist}</a></p>
+            <p><strong>{t("modal-release")}</strong> {new Date(selectedAlbum.releaseDate * 1000).toLocaleDateString()}</p>
+            <p><strong>{t("modal-tracks")}</strong> {selectedAlbum.nbTracks}</p>
+          </div>
+        )}
+      </Modal>
+    </div>
+  );
+};
+
+export default SearchPage;
