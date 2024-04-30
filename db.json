@@ -719,23 +719,11 @@
       "nbTracks": "1",
       "albumLink": "https:/open.spotify.com/album/7s5gKFHMzzMHyLE2KFXNkR",
       "picture": "https:/i.scdn.co/image/ab67616d00001e02cec62b81146fe4d116fbb2fa"
-    },
-    {
-      "id": "1714241635466",
-      "type": "album",
-      "title": "Judgement (Remastered)",
-      "artist": "Anathema",
-      "artistLink": "https://open.spotify.com/artist/0ZXKT0FCsLWkSLCjoBJgBX",
-      "upc": "",
-      "releaseDate": "null",
-      "nbTracks": "",
-      "albumLink": "https://open.spotify.com/album/4IZVVIN1eotOJhqDihuV3H",
-      "picture": "https://i.scdn.co/image/ab67616d00001e02039c7b3731b8197fbf73bbc2"
     }
   ],
   "logins": [
     {
-      "id": "f517",
+      "id": "442d",
       "email": "admin@admin.com",
       "password": "Pa$sw0rd"
     }

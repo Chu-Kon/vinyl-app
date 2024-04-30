@@ -16,6 +16,8 @@ import loginEn from './en/loginEN.json';
 import loginRu from './ru/loginRU.json';
 import footerEn from './en/footerEN.json';
 import footerRu from './ru/footerRU.json';
+import notFoundEn from './en/notFoundEN.json';
+import notFoundRu from './ru/notFoundRU.json';
 
 
 const resources = {
@@ -27,7 +29,8 @@ const resources = {
         about: aboutEn,
         settings: settingsEn,
         login: loginEn,
-        footer: footerEn
+        footer: footerEn,
+        notFound: notFoundEn
     },
     ru: {
         header: headerRu,
@@ -37,7 +40,8 @@ const resources = {
         about: aboutRu,
         settings: settingsRu,
         login: loginRu,
-        footer: footerRu
+        footer: footerRu,
+        notFound: notFoundRu
     }
 }
 
@@ -45,7 +49,7 @@ i18next.use(initReactI18next).init({
     resources,
     lng: 'en',
     fallback: 'en',
-    ns: ['header', 'search', 'collection', 'wishlist', 'about', 'settings', 'login', 'footer'],
+    ns: ['header', 'search', 'collection', 'wishlist', 'about', 'settings', 'login', 'footer', 'notFound'],
     interpolation: {
         escapeValue: false
     }
